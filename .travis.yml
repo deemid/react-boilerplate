@@ -1,25 +1,20 @@
 language: node_js
-
 node_js:
-  - 'node'
-  - 'lts/*'
-
-script:
-  - node ./internals/scripts/generate-templates-for-linting
-  - npm test -- --maxWorkers=4
-  - npm run build
-
-before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-
-notifications:
-  email:
-    on_failure: change
-
-after_success: 'npm run coveralls'
-
+  - '12'
 cache:
+  yarn: true
   directories:
     - node_modules
+script:
+  - yarn test
+before_deploy:
+  - yarn run build
+deploy:
+  provider: s3
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: $S3_BUCKET
+  skip_cleanup: true
+  local-dir: build
+  on:
+    branch: master

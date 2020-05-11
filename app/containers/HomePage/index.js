@@ -68,6 +68,7 @@ export function HomePage({
       </Helmet>
       <div>
         <CenteredSection>
+          <h1>dia</h1>
           <H2>
             <FormattedMessage {...messages.startProjectHeader} />
           </H2>
